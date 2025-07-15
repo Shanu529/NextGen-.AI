@@ -1,9 +1,20 @@
-import React from 'react'
+import React from "react";
+import Header from "../Components/Header";
+import Steps from "../Components/Steps";
+import Intro from "../Components/Intro";
+import Tesstimonials from "../Components/Testimonials"
+import Generate from "../Components/Generate";
 
 function Home() {
   return (
-    <div>Home Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus, minima?</div>
-  )
+    <>
+      <Header />
+      <Steps />
+      <Intro />
+      <Tesstimonials />
+      <Generate />
+    </>
+  );
 }
 
-export default Home
+export default Home;

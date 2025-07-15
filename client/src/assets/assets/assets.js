@@ -43,6 +43,7 @@ export const stepsData = [
       description: 'Type a phrase, sentence, or paragraph that describes the image you want to create.',
       icon: step_icon_1,
     },
+    
     {
       title: 'Watch the Magic',
       description: 'Our AI-powered engine will transform your text into a high-quality, unique image in seconds.',
@@ -67,7 +68,7 @@ export const testimonialsData = [
         image:profile_img_2,
         name:'Richard Nelson',
         role:'Content Creator',
-        stars:5,
+        stars:4,
         text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
     },
     {
