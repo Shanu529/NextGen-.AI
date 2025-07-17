@@ -12,6 +12,9 @@ function Navbar() {
 
   const navigate = useNavigate();
 
+
+  const { showLogin, setShowLogin } = useContext(ContextApp);
+
   return (
     <div className="flex justify-between items-center ">
       <div className="flex gap-2 md:gap-5 lg:gap-4 itean-center">
@@ -23,7 +26,7 @@ function Navbar() {
           />
         </Link>
         <p className="font-bold text-gray-800 text-[0.5rem] lg:text-[1.5rem] items-center align-middle ">
-          NextGen .AI
+          NextGen.AI
         </p>
       </div>
 
@@ -66,7 +69,7 @@ function Navbar() {
             >
               price
             </p>
-            <button className="bg-black px-4 lg:px-10 lg:py-2 text-white cursor-pointer lg:rounded-full rounded-sm">
+            <button onClick={(()=>setShowLogin(true))} className="bg-black px-4 lg:px-10 lg:py-2 text-white cursor-pointer lg:rounded-full rounded-sm">
               login
             </button>
           </div>

@@ -5,6 +5,7 @@ import Intro from "../Components/Intro";
 import Tesstimonials from "../Components/Testimonials"
 import Generate from "../Components/Generate";
 
+
 function Home() {
   return (
     <>
@@ -13,6 +14,7 @@ function Home() {
       <Intro />
       <Tesstimonials />
       <Generate />
+      
     </>
   );
 }

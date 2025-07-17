@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets/assets";
+import { useNavigate } from "react-router-dom";
+import { ContextApp } from "../Context/AppContext";
 
 function Header() {
+  const { user, setShowLogin } = useContext(ContextApp);
+  const navigate = useNavigate();
+  
+  const clickLoginHandler = () => {
+    if(user){
+      navigate('/result')
+    }
+    else{
+      setShowLogin(true)
+
+    }
+  };
   return (
     <div className=" justify-center flex flex-col items-center text-center my-20 capitalize">
       <div className="text-[0.7rem] sm:text-[0.9rem] md:text-[1rem] lg:text-[1.5rem] py-2 px-5 bg-slate-50 text-black border-blue-800 flex gap-3 rounded-full  capitalize ">
@@ -19,7 +33,7 @@ function Header() {
         in seconds – just type, and watch the magic happen
       </p>
 
-      <button className="flex gap-2 mt-5 md:mt-10 transition-all hover:scale-105 duration-500  hover:bg-blue-700 px-5 sm:px-7 md:px-10  bg-black text-white py-2 lg:py-4 rounded-full">
+      <button onClick={clickLoginHandler} className="flex gap-2 mt-5 md:mt-10 transition-all hover:scale-105 duration-500  hover:bg-blue-700 px-5 sm:px-7 md:px-10  bg-black text-white py-2 lg:py-4 rounded-full">
         Generate Images
         <img className="w-6" src={assets.star_group} alt="" />
       </button>
@@ -38,7 +52,9 @@ function Header() {
             />
           ))}
       </div>
-      <p className="mt-5 text-lg">Generated images from <span className="text-blue-600">NextGen.AI </span> </p>
+      <p className="mt-5 text-lg">
+        Generated images from <span className="text-blue-600">NextGen.AI </span>{" "}
+      </p>
     </div>
   );
 }
