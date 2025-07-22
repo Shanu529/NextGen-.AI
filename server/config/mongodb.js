@@ -1,6 +1,6 @@
 import mongoose, { connect } from "mongoose";
 
-const mongodb = async () => {
+const connectDB = async () => {
 
     mongoose.connection.on('connected', () => {
         console.log("running mongodb")
@@ -8,4 +8,4 @@ const mongodb = async () => {
     await mongoose.connect(`${process.env.MONGODBDB_URL}/NextGenAI`)
 };
 
-export default mongodb;
+export default connectDB;

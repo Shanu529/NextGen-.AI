@@ -3,17 +3,24 @@
 import express from 'express'; 
 import cors from 'cors';      
 import axios from 'axios';    
+import connectDB from './config/mongodb.js'
+import dotenv from "dotenv";
+dotenv.config();
+
  
 const app = express();
 
-const Port = process.env.Port || 4002
+const Port = process.env.Port || 4003
 
 app.use(express.json());
 app.use(cors());
 
+connectDB()
+
 
 app.get("/",(req, res)=>{
  res.send("working")
+ console.log("run")
 });
 
 
