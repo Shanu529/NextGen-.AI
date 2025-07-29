@@ -22,15 +22,15 @@ const userRegister = async (req, res) => {
         const newUser = new userModel(userData);
         const user = await newUser.save();
 
-         console.log("User saved to DB:");
+        console.log("User saved in DB:");
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
         res.json({ success: true, token, user: { name: user.name } })
 
     } catch (error) {
 
-        console.log("something wrong resister 1" , error.message)
-        res.json({ success: false, message: "An error occurred. Please try again later." })
+        console.log("something wrong resister 1", error.message)
+        res.json({ success: false, message: "An error occurred. Please try again later. 10" })
     }
 
 }
@@ -46,7 +46,7 @@ const userLogin = async (req, res) => {
         const user = await userModel.findOne({ email }) //change into password to email
 
         if (!user) {
-           return res.json.status(404).json({ success: false, message: "user does not exist" }) // ✅ FIXED
+            return res.json.status(404).json({ success: false, message: "user does not exist" }) //  FIXED
 
         }
 
@@ -65,10 +65,27 @@ const userLogin = async (req, res) => {
     catch (error) {
 
         console.log("something wrong")
-        res.json({ success: false, message: "An error occurred. Please try again later. " })
+        res.json({ success: false, message: "An error occurred. Please try again later.22  " })
 
     }
 
 }
 
-export {userRegister, userLogin}
+const userCredits = async (req, res) => {
+    // const { userId } = req.body;
+    const userId = req.userId;
+    try {
+        const user = await userModel.findById(userId)
+        res.json({
+            success: true, credits: user.creditBalance,
+            user: { name: user.name }
+        })
+    } catch (error) {
+        console.log(error.message)
+        res.json({ success: false, message: error.message })
+
+    }
+
+}
+
+export { userRegister, userLogin, userCredits }

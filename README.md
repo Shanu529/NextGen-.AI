@@ -5,3 +5,15 @@ now it's time to start backend
 there is error 
 
 solved error
+
+<!-- 
+
+
+{
+  "name": "Shanu",
+  "email": "shanu@example.com",
+  "password": "myStrongPassword123"
+} 
+
+
+-->
