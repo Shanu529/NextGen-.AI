@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const userAuth = async (req, res, next) => {
     const { token } = req.headers;
     if (!token) {
-        res.json({ success: false, message: "not authorized try again later 3" })
+        return res.json({ success: false, message: "not authorized try again later 3" })
 
     }
 
@@ -18,7 +18,7 @@ const userAuth = async (req, res, next) => {
         }
 
         else {
-            res.json({ success: false, message: "not authorized try again later 1" })
+            return res.json({ success: false, message: "not authorized try again later 1" })
             console.log("cant run")
             console.log(token, process.env.JWT_SECRET)
         }
@@ -27,7 +27,7 @@ const userAuth = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message)
-        res.json({ success: false, message: "not authorized try again later 2" })
+        return res.json({ success: false, message: "not authorized try again later 2" })
         console.log("something wrong in auth middleware", error.message)
 
     }

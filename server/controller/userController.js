@@ -9,6 +9,7 @@ const userRegister = async (req, res) => {
 
         if (!name || !email || !password) {
             return res.json({ success: false, message: "missing data" })
+            
         }
 
         const salt = await bcrypt.genSalt(10)
