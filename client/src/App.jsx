@@ -10,32 +10,26 @@ import Footer from "./Components/Footer";
 import Result from "./Pages/Result";
 import Login from "./Components/Login";
 import { ContextApp } from "./Context/AppContext";
-
-
-
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
-  const {showLogin , setShowLogin} = useContext(ContextApp)
-  console.log(showLogin)
+  const { showLogin, setShowLogin } = useContext(ContextApp);
+  console.log(showLogin);
 
-    
   return (
     <>
       <div className="  min-h-screen px-8 py-8 sm:px-8  sm:py-8 md:px-8 md:py-10 lg:px-28 lg:py-5">
+        <ToastContainer position="bottom-right"/>
         <Navbar />
-        {
-          showLogin && <Login /> 
-        }
-        
+        {showLogin && <Login />}
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/buy" element={<BuyPage />} />
           <Route path="/result" element={<Result />} />
         </Routes>
-       <Footer />  
-      
-      </div> 
-     
+        <Footer />
+      </div>
     </>
   );
 }

@@ -7,7 +7,7 @@ const userRouter = express.Router()
 
 userRouter.post('/register', userRegister)
 userRouter.post('/login', userLogin)
-userRouter.post('/credits', userAuth, userCredits)
+userRouter.get('/credits', userAuth, userCredits)
 
 export default userRouter;
 

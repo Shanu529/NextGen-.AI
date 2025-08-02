@@ -1,15 +1,36 @@
 import React, { useState, useTransition } from "react";
 import { assets } from "../assets/assets/assets";
+import { useContext } from "react";
+import {ContextApp} from '../Context/AppContext'
+
+
 
 function Result() {
   const [image, setImage] = useState(assets.sample_img_1);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   console.log(input);
 
+  
+const { generateImage } = useContext(ContextApp);
+
+///http://localhost:4005/api/user/image/generate-image
+//http://localhost:4005/api/image/generate-image
+
   const formHandler = async (e) => {
     // in backend  we will use this
+    e.preventDefault();
+    setLoading(true);
+    if (input) {
+      const  image = await generateImage(input);
+      if (image) {
+        setIsImageLoaded(true);
+        setImage(image);
+      }
+    }
+
+    setLoading(false)
   };
 
   return (
@@ -19,10 +40,10 @@ function Result() {
           <img className="w-80" src={image} alt="" />
 
           <span
-            className={` bg-blue-600 h-1 w-full absolute bottom-0 left-0 ${
-              loading ? "w-full transition-all duration-[10s]" : "w-0"
+            className={`bg-blue-600 h-1 absolute bottom-0 left-0 transition-all duration-[10s] ${
+              loading ? "w-full opacity-100" : "w-0 opacity-0"
             }`}
-          ></span>
+          />
         </div>{" "}
         {loading && <p className="items-start">loading...</p>}
         {!isImageLoaded && (
