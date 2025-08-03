@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router } from 'express';
-import { userRegister, userLogin, userCredits } from '../controller/userController.js';
+import { userRegister, userLogin, userCredits, PaymentRazorpay } from '../controller/userController.js';
 import userAuth from '../middleWares/auth.js';
 
 const userRouter = express.Router()
@@ -8,6 +8,7 @@ const userRouter = express.Router()
 userRouter.post('/register', userRegister)
 userRouter.post('/login', userLogin)
 userRouter.get('/credits', userAuth, userCredits)
+userRouter.post('/pay-razor', userAuth, PaymentRazorpay)
 
 export default userRouter;
 

@@ -1,6 +1,8 @@
 import userModel from '../models/userModels.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import razorpay from 'razorpay'
+import transiactionModel from '../models/transactionMdel.js'
 
 
 const userRegister = async (req, res) => {
@@ -9,7 +11,7 @@ const userRegister = async (req, res) => {
 
         if (!name || !email || !password) {
             return res.json({ success: false, message: "missing data" })
-            
+
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -89,4 +91,61 @@ const userCredits = async (req, res) => {
 
 }
 
-export { userRegister, userLogin, userCredits }
+
+const razorpayInstance = new razorpay({
+    key_id: process.env.TEST_KEY_ID,
+    key_secret: process.env.TEST_KEY_SECRET
+});
+
+
+
+const PaymentRazorpay = async (req, res) => {
+    try {
+        const { userId, planId } = req.body
+        const userData = userModel.findById(userId);
+
+        if (!userId || !planId) {
+            return res.json({ success: false, message: "you don't have user ID" })
+        }
+        let credit, plan, amount, date
+        switch (planId) {
+            case "basic": plan = "basic"; credit = 100; amount = 10; break;
+            case "advance": plan = "advance"; credit = 500; amount = 50; break;
+            case "business": plan = "business"; credit = 500; amount = 250; break; default: return res.json({ success: false, message:"plan nit found"})
+        }
+
+        date = Date.now()
+        const transactiondata = {
+            userId, plan, amount, credit,  date  //credits
+        }
+
+        const newTransiaction = await transiactionModel.create(transactiondata)
+
+        const option = {
+            amount: amount * 100,
+            currency: process.env.CURRENCY,
+            recepit: newTransiaction._id
+
+        }
+
+        await razorpayInstance.orders.create(option,(error, order)=>{
+            if(error){
+                console.log(error);
+                return res.json({success:false, message:error})
+            }
+            res.json({success:true, order})
+        })
+        // const razorpayTranactionData = await (option, (error, order) => {
+        //     if (error) {
+        //         console.log(error)
+        //         return res.josn({ success: false, message: error.message, message: "something wrong" })
+        //     }
+        //     return res.json({ success: true, order, message: "success" });
+        // })
+    } catch (error) {
+        return res.json({ success: false, message: error.message })
+
+    }
+}
+
+export { userRegister, userLogin, userCredits, PaymentRazorpay }
