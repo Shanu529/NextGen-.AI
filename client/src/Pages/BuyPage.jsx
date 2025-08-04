@@ -11,7 +11,7 @@ function BuyPage() {
 
   const navigate = useNavigate();
   const initPay = async (order) => {
-    const option = {
+    const options = {
       key: import.meta.env.VITE_TEST_KEY_ID,
       amount: order.amount,
       currency: order.currency,
@@ -23,7 +23,7 @@ function BuyPage() {
         console.log(response);
       },
     };
-    const rzp = new window.Razorpay(option);
+    const rzp = new window.Razorpay(options);
 
     rzp.open();
   };

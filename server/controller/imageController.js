@@ -31,7 +31,8 @@ const imagecontroller = async (req, res) => {
         await userModel.findByIdAndUpdate(user._id, {
             creditBalance: user.creditBalance - 1, resultImage
         })
-        res.json({ success: true, message: "image generated", image: resultImage })
+
+        res.json({ success: true, message: "image generated", image: resultImage });
 
     } catch (error) {
         console.log(error.message)

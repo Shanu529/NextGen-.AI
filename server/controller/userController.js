@@ -2,8 +2,11 @@ import userModel from '../models/userModels.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import razorpay from 'razorpay'
-import transiactionModel from '../models/transactionMdel.js'
+import transactionModel from '../models/transactionMdel.js'
+import dotenv from "dotenv";
 
+
+dotenv.config();
 
 const userRegister = async (req, res) => {
     try {
@@ -93,8 +96,8 @@ const userCredits = async (req, res) => {
 
 
 const razorpayInstance = new razorpay({
-    key_id: process.env.TEST_KEY_ID,
-    key_secret: process.env.TEST_KEY_SECRET
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY__KEY_SECRET,
 });
 
 
@@ -102,33 +105,33 @@ const razorpayInstance = new razorpay({
 const PaymentRazorpay = async (req, res) => {
     try {
         const { userId, planId } = req.body
-        const userData = userModel.findById(userId);
+        const userData = await userModel.findById(userId);
 
         if (!userId || !planId) {
             return res.json({ success: false, message: "you don't have user ID" })
         }
-        let credit, plan, amount, date
+        let creditS, plan, amount, date
         switch (planId) {
-            case "basic": plan = "basic"; credit = 100; amount = 10; break;
-            case "advance": plan = "advance"; credit = 500; amount = 50; break;
-            case "business": plan = "business"; credit = 500; amount = 250; break; default: return res.json({ success: false, message:"plan nit found"})
+            case "basic": plan = "basic"; creditS = 100; amount = 10; break;
+            case "advance": plan = "advance"; creditS= 500; amount = 50; break;
+            case "business": plan = "business"; creditS = 500; amount = 250; break; default: return res.json({ success: false, message:"plan nit found"})
         }
 
         date = Date.now()
         const transactiondata = {
-            userId, plan, amount, credit,  date  //credits
+            userId, plan, amount, creditS,  date  //credits
         }
 
-        const newTransiaction = await transiactionModel.create(transactiondata)
+        const newTransaction = await transactionModel.create(transactiondata)
 
-        const option = {
+        const options = {
             amount: amount * 100,
             currency: process.env.CURRENCY,
-            recepit: newTransiaction._id
+            recepit: newTransaction._id,
 
         }
 
-        await razorpayInstance.orders.create(option,(error, order)=>{
+        await razorpayInstance.orders.create(options,(error, order)=>{
             if(error){
                 console.log(error);
                 return res.json({success:false, message:error})
@@ -148,4 +151,4 @@ const PaymentRazorpay = async (req, res) => {
     }
 }
 
-export { userRegister, userLogin, userCredits, PaymentRazorpay }
+export { userRegister, userLogin, userCredits, PaymentRazorpay  } //PaymentRazorpay

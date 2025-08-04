@@ -79,3 +79,12 @@ js
 Copy code
 req.userId = tokenDecoder.id;
 Now the controller can use req.userId to find the user in the database.
+
+
+username = shanu chhetri 
+email = shanuchhetri123@gmail.com
+pass = 123
+
+username = test 
+email = test23@gmail.com
+pass = tes124

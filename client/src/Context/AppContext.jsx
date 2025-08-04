@@ -54,7 +54,7 @@ const AppContextProvider = (props) => {
       //http://localhost:4005/api/image/generate-image
       if (data.success) {
         loadCredit();
-        return data.image;
+        return data; //change this into data.image
       }
     } catch (error) {
       toast.error(error.message);

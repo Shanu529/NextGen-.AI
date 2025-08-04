@@ -1,5 +1,4 @@
 
-
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
@@ -11,6 +10,8 @@ import imageRouter from './Router/imageRouter.js';
 
 
 const app = express();
+dotenv.config();
+
 
 const Port = process.env.Port || 4005
 

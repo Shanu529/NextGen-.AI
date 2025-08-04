@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router } from 'express';
-import { userRegister, userLogin, userCredits, PaymentRazorpay } from '../controller/userController.js';
+import { userRegister, userLogin, userCredits,  PaymentRazorpay } from '../controller/userController.js'; // PaymentRazorpay
 import userAuth from '../middleWares/auth.js';
 
 const userRouter = express.Router()

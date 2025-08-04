@@ -3,6 +3,8 @@ import { assets } from "../assets/assets/assets";
 import { useContext } from "react";
 import { ContextApp } from "../Context/AppContext";
 import { saveAs } from "file-saver";
+import { useNavigate } from "react-router-dom";
+
 
 function Result() {
   const [image, setImage] = useState(assets.sample_img_1);
@@ -10,7 +12,7 @@ function Result() {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   console.log(input);
-
+   const navigate = useNavigate()
   const { generateImage } = useContext(ContextApp);
 
   ///http://localhost:4005/api/user/image/generate-image
@@ -22,24 +24,21 @@ function Result() {
     setLoading(true);
     if (input) {
       const image = await generateImage(input);
-      if (image) {
+      if(image.success === false){
+        navigate('/buy');
+      }
+      else{
         setIsImageLoaded(true);
-        setImage(image);
+        setImage(image.image);
       }
     }
-
     setLoading(false);
   };
 
-  function ImageDownloader() {
-    // const imageUrl = "https://example.com/your-image.jpg";
+  const handleDownload = () => {
     const fileName = "downloaded-image.jpg";
-    image;
-
-    const handleDownload = () => {
-      saveAs(image, fileName);
-    };
-  }
+    saveAs(image, fileName);
+  };
 
   return (
     <div className="py-20">
@@ -74,22 +73,26 @@ function Result() {
       </form>
       {isImageLoaded && (
         <div className="flex gap-5 justify-center py-5">
-          <p onClick={"submit"} className="border-black border-2 text-black px-5 py-2 rounded-full">
+          <p
+            onClick={() => {
+              setIsImageLoaded(false);
+              setInput("");
+            }}
+            className="border-black border-2 cursor-pointer text-black px-5 py-2 rounded-full"
+          >
             Generate Another
           </p>
 
           <a
-            onClick={ImageDownloader}
-            href="image"
-            download="download.jpg"
+            onClick={handleDownload}
+            href={image}
+            download="downloaded-image.png"
             className=" text-white bg-blue-400 py-2 px-5 rounded-full"
           >
             {" "}
             download
           </a>
         </div>
-
-        
       )}
     </div>
   );
