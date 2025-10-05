@@ -3,8 +3,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useActionData, useNavigate } from "react-router-dom";
 
-
-
 export const ContextApp = createContext();
 const AppContextProvider = (props) => {
   const navigate = useNavigate();
@@ -23,8 +21,14 @@ const AppContextProvider = (props) => {
         headers: { token },
       });
       if (data.success) {
+        console.log("here is tokennnnn",token);
+        
+         localStorage.setItem("token",token);
+        // localStorage.setItem("token", data.token); // persist token
+        setToken(data.token);
         setCredit(data.credits);
         setUser(data.user);
+        toast.success("Logged in!");
       }
     } catch (e) {
       toast.error(error.message);
@@ -41,6 +45,7 @@ const AppContextProvider = (props) => {
     localStorage.removeItem("token");
     setToken("");
     setUser(null);
+    toast.info("Logged OUT!");
   };
 
   const generateImage = async (prompt) => {
@@ -55,6 +60,11 @@ const AppContextProvider = (props) => {
       if (data.success) {
         loadCredit();
         return data; //change this into data.image
+      } else {
+        if (data.creditBalance === 0) {
+          navigate("/buy");
+        }
+        return { success: false };
       }
     } catch (error) {
       toast.error(error.message);

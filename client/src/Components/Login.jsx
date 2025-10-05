@@ -11,7 +11,6 @@ function Login() {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  
 
   const { showLogin, setShowLogin, backendUrl, setToken, setUser } =
     useContext(ContextApp);
@@ -20,7 +19,7 @@ function Login() {
     e.preventDefault();
     try {
       if (state === "login") {
-        const { data } = await axios.post(backendUrl+"/api/user/login", {
+        const { data } = await axios.post(backendUrl + "/api/user/login", {
           email,
           password,
         });
@@ -34,7 +33,7 @@ function Login() {
           toast.error(data.message);
         }
       } else {
-        const { data } = await axios.post(backendUrl+"/api/user/register", {
+        const { data } = await axios.post(backendUrl + "/api/user/register", {
           name,
           email,
           password,
@@ -57,7 +56,6 @@ function Login() {
         toast.error("Network error or endpoint not found");
       }
     }
-  
   };
 
   useEffect(() => {
@@ -71,10 +69,10 @@ function Login() {
   // console.log(getValeu)
 
   return (
-    <div className="  bg-black/30 h-full align-middle pt-40 fixed  top-0 left-0 right-0 z-10 backdrop-blur-sm justify-center flex">
+    <div className="  bg-black/30 h-full align-middle pt-40 fixed  top-0 left-0 right-0 z-10 backdrop-blur-sm justify-center flex ">
       <form
         onSubmit={onSubmitHandler}
-        className=" px-14 py-5 bg-white rounded-lg border-2 border-blue-500 fixed"
+        className=" px-14  py-5 bg-white rounded-lg border-2 border-white-500 fixed"
       >
         <h2 className="text-center my-3">{state}</h2>
         <p className="text-center my-3">

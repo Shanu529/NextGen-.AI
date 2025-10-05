@@ -97,58 +97,65 @@ const userCredits = async (req, res) => {
 
 const razorpayInstance = new razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY__KEY_SECRET,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 
 
 const PaymentRazorpay = async (req, res) => {
     try {
-        const { userId, planId } = req.body
+        const userId = req.userId; // Get userId from the authenticated user
+        console.log("userId in PaymentRazorpay:", userId);
+
+        const { planId } = req.body
         const userData = await userModel.findById(userId);
 
         if (!userId || !planId) {
             return res.json({ success: false, message: "you don't have user ID" })
         }
-        let creditS, plan, amount, date
-        switch (planId) {
-            case "basic": plan = "basic"; creditS = 100; amount = 10; break;
-            case "advance": plan = "advance"; creditS= 500; amount = 50; break;
-            case "business": plan = "business"; creditS = 500; amount = 250; break; default: return res.json({ success: false, message:"plan nit found"})
+
+        console.log("userId:", userId, "planId:", planId);
+
+        let credits, plan, amount, date
+        switch (planId.toLowerCase()) {
+            case "basic": plan = "basic"; credits = 100; amount = 10; break;
+            case "advance": plan = "advance"; credits = 500; amount = 50; break;
+            case "business": plan = "business"; credits = 500; amount = 250; break; default: return res.json({ success: false, message: "plan nit found" })
         }
 
         date = Date.now()
+
+
         const transactiondata = {
-            userId, plan, amount, creditS,  date  //credits
+            userId, plan, amount, credits, date  //credits
         }
 
         const newTransaction = await transactionModel.create(transactiondata)
 
+        console.log("New transaction created:", newTransaction);
+        
         const options = {
             amount: amount * 100,
             currency: process.env.CURRENCY,
-            recepit: newTransaction._id,
+            // recepit: newTransaction._id.toString()
 
         }
 
-        await razorpayInstance.orders.create(options,(error, order)=>{
-            if(error){
-                console.log(error);
-                return res.json({success:false, message:error})
+        await razorpayInstance.orders.create(options, (error, order) => {
+            if (error) {
+                console.log("here is error ", error);
+                return res.json({ success: false, message: error })
             }
-            res.json({success:true, order})
+            else {
+                res.json({ success: true, order })
+            }
+
         })
-        // const razorpayTranactionData = await (option, (error, order) => {
-        //     if (error) {
-        //         console.log(error)
-        //         return res.josn({ success: false, message: error.message, message: "something wrong" })
-        //     }
-        //     return res.json({ success: true, order, message: "success" });
-        // })
+       
     } catch (error) {
         return res.json({ success: false, message: error.message })
 
     }
 }
 
-export { userRegister, userLogin, userCredits, PaymentRazorpay  } //PaymentRazorpay
+export { userRegister, userLogin, userCredits, PaymentRazorpay } //PaymentRazorpay

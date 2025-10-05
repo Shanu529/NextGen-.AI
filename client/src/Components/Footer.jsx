@@ -1,30 +1,28 @@
-import React, { useContext } from "react";
+import React from "react";
 import { assets } from "../assets/assets/assets";
 
-
 function Footer() {
-  
   return (
-    <div className=" flex lg:gap-10 text-center mt-10 justify-between md:justify-around align-middle">
-      <div className="flex text-center justify-center ">
-        <img className="w-4 md:w-6 " src={assets.logo_icon} alt="" />
+    <footer className="w-full py-4 border-t border-gray-300 mt-16">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between px-4 gap-3 text-gray-600 text-sm">
+        
+    
+        <div className="flex items-center gap-2">
+          <img src={assets.logoo} alt="logo" className="w-5 md:w-32" />
+          
+        </div>
 
-        <div className="md:px-5">
-          <p className="text-[0.5rem] md:text-[1rem]  text-gray-700">
-            NextGen.AI
-            <span className="px-5 text-[0.5rem] md:text-[1rem] ">
-              All right reserved. Copyright @NextGen.AI
-            </span>
-          </p>
+       
+        <div className="flex items-center gap-4">
+          <p className="text-xs sm:text-sm">© {new Date().getFullYear()} NextGen.AI</p>
+          <div className="flex gap-3">
+            <img src={assets.facebook_icon} alt="Facebook" className="w-6" />
+            <img src={assets.instagram_icon} alt="Instagram" className="w-6" />
+            <img src={assets.twitter_icon} alt="Twitter" className="w-6" />
+          </div>
         </div>
       </div>
-
-      <div className="flex w-4 gap-2 md:w-6 md:gap-4 ">
-        <img src={assets.facebook_icon} alt="" />
-        <img src={assets.instagram_icon} alt="" />
-        <img src={assets.twitter_icon} alt="" />
-      </div>
-    </div>
+    </footer>
   );
 }
 

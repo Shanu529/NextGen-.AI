@@ -18,8 +18,16 @@ import cross_icon from './cross_icon.svg'
 import star_group from './star_group.png'
 import credit_star from './credit_star.svg'
 import profile_icon from './profile_icon.png'
-
+import dog from './img1.avif'
+import dog2 from"./img2.jpg"
+import aiimg from"./ai img.webp"
+// import logoo from "./logo.avif"
+import logoo from "./logo.png"
 export const assets = {
+  logoo,
+   dog2,
+    dog,
+    aiimg,
     logo,
     logo_icon,
     facebook_icon,
@@ -88,7 +96,7 @@ export const plans = [
       desc: 'Best for personal use.'
     },
     {
-      id: 'Advanced',
+      id: 'advance',
       price: 50,
       credits: 500,
       desc: 'Best for business use.'

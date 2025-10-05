@@ -1,97 +1,103 @@
-import React, { useState, useTransition } from "react";
+
+import React, { useState, useContext } from "react";
 import { assets } from "../assets/assets/assets";
-import { useContext } from "react";
 import { ContextApp } from "../Context/AppContext";
 import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
 
-
 function Result() {
-  const [image, setImage] = useState(assets.sample_img_1);
+  const [image, setImage] = useState(assets.aiimg);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
-  console.log(input);
-   const navigate = useNavigate()
-  const { generateImage } = useContext(ContextApp);
 
-  ///http://localhost:4005/api/user/image/generate-image
-  //http://localhost:4005/api/image/generate-image
+  const navigate = useNavigate();
+  const { generateImage, credit } = useContext(ContextApp);
 
   const formHandler = async (e) => {
-    // in backend  we will use this
     e.preventDefault();
     setLoading(true);
-    if (input) {
-      const image = await generateImage(input);
-      if(image.success === false){
-        navigate('/buy');
-      }
-      else{
+
+    if (input.trim()) {
+      const res = await generateImage(input);
+
+      if (credit === 0) {
+        navigate("/buy");
+      } else {
         setIsImageLoaded(true);
-        setImage(image.image);
+        setImage(res.image);
       }
     }
     setLoading(false);
   };
 
   const handleDownload = () => {
-    const fileName = "downloaded-image.jpg";
-    saveAs(image, fileName);
+    saveAs(image, "generated-image.jpg");
   };
 
   return (
-    <div className="py-20">
-      <form onSubmit={formHandler} className="flex flex-col items-center gap-5">
-        <div className=" relative capitalize">
-          <img className="w-80" src={image} alt="" />
-
+    <div className=" text-white px-4 items-center justify-center flex">
+      <form
+        onSubmit={formHandler}
+        className="flex flex-col items-center gap-6 w-full max-w-md"
+      >
+        {/* Image Preview */}
+        <div className="relative w-80 h-80 rounded-xl overflow-hidden shadow-lg border">
+          <img
+            className="w-full h-full object-cover"
+            src={image}
+            alt="Generated"
+          />
           <span
-            className={`bg-blue-600 h-1 absolute bottom-0 left-0 transition-all duration-[10s] ${
+            className={`absolute bottom-0 left-0 h-1 bg-blue-500 transition-all duration-[8s] ${
               loading ? "w-full opacity-100" : "w-0 opacity-0"
             }`}
           />
-        </div>{" "}
-        {loading && <p className="items-start">loading...</p>}
+        </div>
+
+        {/* Loader */}
+        {loading && <p className="text-sm text-neutral-400">Generating...</p>}
+
+        {/* Input & Generate */}
         {!isImageLoaded && (
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full">
             <input
               onChange={(e) => setInput(e.target.value)}
               value={input}
               type="text"
-              placeholder="Enter Anything"
-              className="py-2 border-none px-5 rounded-full"
+              placeholder="Describe your image..."
+              className="flex-1 py-2 px-4 rounded-lg text-black border border-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="submit"
-              className="px-10 py-2 rounded-full bg-blue-400 transition-all duration-300 hover:bg-blue-500 text-white"
+              className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all text-white font-medium"
+              disabled={loading}
             >
-              Generate
+              {loading ? "..." : "Generate"}
             </button>
           </div>
         )}
       </form>
+
+      {/* Action Buttons */}
       {isImageLoaded && (
-        <div className="flex gap-5 justify-center py-5">
-          <p
+        <div className="flex gap-4 mt-6">
+          <button
             onClick={() => {
               setIsImageLoaded(false);
               setInput("");
             }}
-            className="border-black border-2 cursor-pointer text-black px-5 py-2 rounded-full"
+            className="px-6 py-2 border border-neutral-600 rounded-lg hover:bg-neutral-800 transition-all"
           >
             Generate Another
-          </p>
+          </button>
 
-          <a
+          <button
             onClick={handleDownload}
-            href={image}
-            download="downloaded-image.png"
-            className=" text-white bg-blue-400 py-2 px-5 rounded-full"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white transition-all"
           >
-            {" "}
-            download
-          </a>
+            Download
+          </button>
         </div>
       )}
     </div>
