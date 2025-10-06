@@ -2,10 +2,13 @@
 import jwt from 'jsonwebtoken';
 
 const userAuth = async (req, res, next) => {
+    console.log("hlo");
+    
     const { token } = req.headers;
+    console.log("Token before request:", token);
+
     if (!token) {
         return res.json({ success: false, message: "not authorized try again later 33" })
-
     }
 
     try {

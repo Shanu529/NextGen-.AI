@@ -32,6 +32,8 @@ function BuyPage() {
   };
 
   const paymentRazorPay = async (planId) => {
+    console.log("clicked");
+    
     try {
       console.log("paymentRazorPay called with planId:", planId);
 
@@ -62,7 +64,7 @@ function BuyPage() {
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-16">
-      {/* Heading */}
+
       <div className="text-center mb-12">
         <button className="bg-gray-100 text-gray-800 px-6 py-2 rounded-full text-xs md:text-sm mb-4">
           Our Plans
@@ -72,7 +74,7 @@ function BuyPage() {
         </h1>
       </div>
 
-      {/* Plans Grid */}
+     
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
         {plans && plans.length > 0 ? (
           plans.map((plan, index) => (

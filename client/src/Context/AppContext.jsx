@@ -86,7 +86,7 @@ const AppContextProvider = (props) => {
     setToken,
     backendUrl,
     setUser,
-    setShowLogin,
+   
     loadCredit,
     logout,
     generateImage,
