@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from "react";
 import { assets } from "../assets/assets/assets";
 import { ContextApp } from "../Context/AppContext";
@@ -41,7 +40,6 @@ function Result() {
         onSubmit={formHandler}
         className="flex flex-col items-center gap-6 w-full max-w-md"
       >
-        {/* Image Preview */}
         <div className="relative w-80 h-80 rounded-xl overflow-hidden shadow-lg border">
           <img
             className="w-full h-full object-cover"
@@ -55,10 +53,8 @@ function Result() {
           />
         </div>
 
-        {/* Loader */}
         {loading && <p className="text-sm text-neutral-400">Generating...</p>}
 
-        {/* Input & Generate */}
         {!isImageLoaded && (
           <div className="flex gap-2 w-full">
             <input
@@ -79,7 +75,6 @@ function Result() {
         )}
       </form>
 
-      {/* Action Buttons */}
       {isImageLoaded && (
         <div className="flex gap-4 mt-6">
           <button

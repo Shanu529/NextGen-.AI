@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const userAuth = async (req, res, next) => {
     console.log("hlo");
-    
+
     const { token } = req.headers;
     console.log("Token before request:", token);
 
@@ -15,12 +15,12 @@ const userAuth = async (req, res, next) => {
 
         const tokenDecoder = jwt.verify(token, process.env.JWT_SECRET)
         console.log("Decoded token:", tokenDecoder);
-        
+
         if (tokenDecoder.id) {
             // req.body.userId = req.headers.Id
             // req.body.userId = tokenDecoder.id;
             req.userId = tokenDecoder.id;
-             return next();
+            return next();
 
         }
 

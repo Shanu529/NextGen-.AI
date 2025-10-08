@@ -6,8 +6,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function BuyPage() {
-  const { user, token, backendUrl, loadCreaditData, setShowLogin } =
-    useContext(ContextApp);
+  // const { user, token, backendUrl, loadCreaditData, setShowLogin } =
+  //   useContext(ContextApp);
+  const { user, backendUrl, setShowLogin } = useContext(ContextApp);
+
   const navigate = useNavigate();
 
   const initPay = async (order) => {
@@ -33,7 +35,7 @@ function BuyPage() {
 
   const paymentRazorPay = async (planId) => {
     console.log("clicked");
-    
+
     try {
       console.log("paymentRazorPay called with planId:", planId);
 
@@ -45,10 +47,17 @@ function BuyPage() {
         return;
       }
 
+      // const { data } = await axios.post(
+      //   backendUrl + "/api/user/pay-razor",
+      //   { planId },
+      //   { headers: { token } }
+      // );
+      const tokenLocal = localStorage.getItem("token");
+
       const { data } = await axios.post(
-        backendUrl + "/api/user/pay-razor",
+        `${backendUrl}/api/user/pay-razor`,
         { planId },
-        { headers: { token } }
+        { headers: { token: tokenLocal } }
       );
 
       console.log("here is data  from razerpay", data);
@@ -64,7 +73,6 @@ function BuyPage() {
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-16">
-
       <div className="text-center mb-12">
         <button className="bg-gray-100 text-gray-800 px-6 py-2 rounded-full text-xs md:text-sm mb-4">
           Our Plans
@@ -74,7 +82,6 @@ function BuyPage() {
         </h1>
       </div>
 
-     
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
         {plans && plans.length > 0 ? (
           plans.map((plan, index) => (

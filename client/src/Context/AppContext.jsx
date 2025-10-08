@@ -1,37 +1,40 @@
-import { createContext, use, useContext, useEffect, useState } from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useActionData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ContextApp = createContext();
-const AppContextProvider = (props) => {
+
+const AppContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
-
-  const [credit, setCredit] = useState();
+  const [credit, setCredit] = useState(0);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+  // Load user credits and info
   const loadCredit = async () => {
     try {
-      //http://localhost:4005/api/image/generate-image
-      const { data } = await axios.get(backendUrl + "/api/user/credits", {
-        headers: { token },
+      const tokenLocal = localStorage.getItem("token");
+      if (!tokenLocal) return;
+
+      const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
+        headers: { token: tokenLocal },
       });
+
+      console.log("here is data of backend =>", data);
+
       if (data.success) {
-        console.log("here is tokennnnn",token);
-        
-         localStorage.setItem("token",token);
-        // localStorage.setItem("token", data.token); // persist token
-        setToken(data.token);
         setCredit(data.credits);
         setUser(data.user);
-        toast.success("Logged in!");
+        toast.success("User data loaded!");
       }
-    } catch (e) {
-      toast.error(error.message);
+    } catch (error) {
+      console.error("Error loading credits:", error.message);
+      toast.error("Failed to load user credits");
     }
   };
 
@@ -43,35 +46,37 @@ const AppContextProvider = (props) => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setToken(null);
     setUser(null);
     toast.info("Logged OUT!");
+    navigate("/");
   };
 
   const generateImage = async (prompt) => {
     try {
+      const tokenLocal = localStorage.getItem("token");
+      if (!tokenLocal) {
+        setShowLogin(true);
+        return { success: false };
+      }
+
       const { data } = await axios.post(
-        backendUrl + "/api/image/generate-image",
+        `${backendUrl}/api/image/generate-image`,
         { prompt },
-        { headers: { token } }
+        { headers: { token: tokenLocal } }
       );
 
-      //http://localhost:4005/api/image/generate-image
       if (data.success) {
-        loadCredit();
-        return data; //change this into data.image
+        await loadCredit(); // update credits
+        return { success: true, image: data.image };
       } else {
-        if (data.creditBalance === 0) {
-          navigate("/buy");
-        }
+        if (credit === 0) navigate("/buy");
         return { success: false };
       }
     } catch (error) {
+      console.error("Error generating image:", error.message);
       toast.error(error.message);
-      loadCredit();
-      if (data.creditBalance === 0) {
-        navigate("/buy");
-      }
+      return { success: false };
     }
   };
 
@@ -85,16 +90,12 @@ const AppContextProvider = (props) => {
     token,
     setToken,
     backendUrl,
-    setUser,
-   
     loadCredit,
     logout,
     generateImage,
   };
 
-  return (
-    <ContextApp.Provider value={value}>{props.children}</ContextApp.Provider>
-  );
+  return <ContextApp.Provider value={value}>{children}</ContextApp.Provider>;
 };
 
 export default AppContextProvider;
