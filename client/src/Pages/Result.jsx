@@ -35,12 +35,12 @@ function Result() {
   };
 
   return (
-    <div className=" text-white px-4 items-center justify-center flex">
+    <div className=" text-white px-4 h-[70vh] flex-col items-center justify-center flex">
       <form
         onSubmit={formHandler}
         className="flex flex-col items-center gap-6 w-full max-w-md"
       >
-        <div className="relative w-80 h-80 rounded-xl overflow-hidden shadow-lg border">
+        <div className="relative md:w-80 md:h-80 h-80 rounded-xl overflow-hidden shadow-lg border">
           <img
             className="w-full h-full object-cover"
             src={image}
@@ -56,17 +56,17 @@ function Result() {
         {loading && <p className="text-sm text-neutral-400">Generating...</p>}
 
         {!isImageLoaded && (
-          <div className="flex gap-2 w-full">
+          <div className="flex gap-2   ">
             <input
               onChange={(e) => setInput(e.target.value)}
               value={input}
               type="text"
               placeholder="Describe your image..."
-              className="flex-1 py-2 px-4 rounded-lg text-black border border-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className=" py-2 px-4 md:w-full w-40 rounded-lg text-sm text-black border border-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="submit"
-              className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all text-white font-medium"
+              className="md:px-6 px-3 py-2 text-sm rounded-lg bg-blue-600 hover:bg-blue-700 transition-all text-white font-medium"
               disabled={loading}
             >
               {loading ? "..." : "Generate"}
@@ -82,14 +82,14 @@ function Result() {
               setIsImageLoaded(false);
               setInput("");
             }}
-            className="px-6 py-2 border border-neutral-600 rounded-lg hover:bg-neutral-800 transition-all"
+            className="md:px-6 px-3 hover:text-white text-black md:text-lg text-[0.6rem] md:py-2 border border-neutral-600 rounded-lg hover:bg-blue-500 transition-all"
           >
             Generate Another
           </button>
 
           <button
             onClick={handleDownload}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white transition-all"
+            className="md:px-6 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm md:text-lg text-white transition-all"
           >
             Download
           </button>
