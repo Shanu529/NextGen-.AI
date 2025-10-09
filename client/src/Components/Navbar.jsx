@@ -59,7 +59,7 @@ function Navbar() {
               </button>
               <button
                 onClick={() => setShowLogin(true)}
-                className="bg-blue-500 hover:bg-blue-600 transition-all text-white rounded-full px-4 py-1 md:px-7 md:py-2 text-xs md:text-sm shadow"
+                className="bg-[rgb(8,120,130)] hover:bg-[rgb(14,160,173)] transition-all text-white rounded-full px-4 py-1 md:px-7 md:py-2 text-xs md:text-sm shadow"
               >
                 Login
               </button>

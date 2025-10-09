@@ -74,7 +74,7 @@ function Login() {
         onSubmit={onSubmitHandler}
         className=" px-14  py-5 bg-white rounded-lg border-2 border-white-500 fixed"
       >
-        <h2 className="text-center my-3">{state}</h2>
+        <h2 className="text-center my-3 capitalize">{state}</h2>
         <p className="text-center my-3">
           Welcome back! Please sign in to continue
         </p>
@@ -116,10 +116,10 @@ function Login() {
           </div>
         </div>
 
-        <p className="text-sm cursor-pointer text-blue-700 my-3 font-medium">
+        <p className="text-sm cursor-pointer text-[rgb(8,120,130)] my-3 font-medium">
           Forgot password?
         </p>
-        <button className="bg-blue-600 w-full py-2 mb-2 text-white rounded-full ">
+        <button className="bg-[rgb(8,120,130)] hover:bg-[rgb(18,159,172)] w-full py-2 mb-2 text-white rounded-full ">
           {state}
         </button>
 
@@ -127,8 +127,8 @@ function Login() {
           <p className="text-center text-sm ">
             Don’t have an account?{" "}
             <span
-              className="text-blue-600 cursor-pointer font-semibold"
-              onClick={() => setState("signin")}
+              className="text-[rgb(8,120,130)] cursor-pointer font-semibold"
+              onClick={() => setState(" Sign up")}
             >
               Sign up
             </span>
@@ -137,7 +137,7 @@ function Login() {
           <p className="text-center text-sm my-2">
             Already have an account{" "}
             <span
-              className="text-blue-600 font-semibold cursor-pointer"
+              className="text-[rgb(8,120,130)] font-semibold cursor-pointer"
               onClick={() => setState("login")}
             >
               Log in
