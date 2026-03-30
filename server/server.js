@@ -17,7 +17,12 @@ dotenv.config();
 // const PORT = process.env.PORT || 4005  
 
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  origin: "https://next-gen-ai-gold.vercel.app/",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 connectDB()
 
