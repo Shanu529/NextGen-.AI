@@ -17,6 +17,8 @@ function Login() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    console.log(`backendUrl`, backendUrl);
+    
     try {
       if (state === "login") {
         const { data } = await axios.post(backendUrl + "/api/user/login", {
@@ -24,13 +26,17 @@ function Login() {
           password,
         });
 
+        console.log('here is res', data);
+        
+
         if (data.success) {
           setToken(data.token);
           setUser(data.user);
           localStorage.getItem("token", data.token);
           setShowLogin(false);
+          toast.success(" Login successful.");
         } else {
-          toast.error(data.message);
+          toast.error(" Login failed.");
         }
       } else {
         const { data } = await axios.post(backendUrl + "/api/user/register", {
@@ -44,14 +50,17 @@ function Login() {
           setUser(data.user);
           localStorage.setItem("token", data.token);
           setShowLogin(false);
+          toast.success(" Registration successful.");
         } else {
-          toast.error(data.message);
+          toast.error(" Registration failed.");
         }
       }
     } catch (e) {
       console.error("API Error:", e);
       if (e.response?.data?.message) {
-        toast.error(e.response.data.message);
+        // toast.error(e.response.data.message);
+        console.log(e.response.data.message);
+        
       } else {
         toast.error("Network error or endpoint not found");
       }

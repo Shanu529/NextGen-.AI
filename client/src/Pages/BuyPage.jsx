@@ -14,7 +14,8 @@ function BuyPage() {
 
   const initPay = async (order) => {
     if (!window.Razorpay) {
-      toast.error("Razorpay SDK not loaded!");
+      // toast.error("Oayloaded!");
+      console.log("Razorpay SDK not loaded!");
       return;
     }
     const options = {
@@ -67,7 +68,8 @@ function BuyPage() {
         initPay(data.order);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+      console.log(error.response?.data?.message || error.message);
+      // toast.error(error.response?.data?.message || error.message);
     }
   };
 

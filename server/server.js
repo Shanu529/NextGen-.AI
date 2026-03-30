@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import userRouter from './Router/userRouter.js';
 dotenv.config();
 import imageRouter from './Router/imageRouter.js';
+// import { useEffect } from 'react';
 
 
 const app = express();

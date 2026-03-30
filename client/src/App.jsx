@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const { showLogin, setShowLogin } = useContext(ContextApp);
-  console.log(showLogin);
+  console.log("here is show login",showLogin);
 
   return (
     <>

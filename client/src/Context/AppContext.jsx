@@ -30,11 +30,13 @@ const AppContextProvider = ({ children }) => {
       if (data.success) {
         setCredit(data.credits);
         setUser(data.user);
-        toast.success("User data loaded!");
+        // toast.success("");
       }
     } catch (error) {
       console.error("Error loading credits:", error.message);
-      toast.error("Failed to load user credits");
+      // toast.error("Failed to load user credits");
+      console.log("failed to load user credits");
+      
     }
   };
 
@@ -75,7 +77,9 @@ const AppContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error generating image:", error.message);
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.log(error.message);
+      
       return { success: false };
     }
   };

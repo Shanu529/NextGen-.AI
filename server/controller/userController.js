@@ -9,6 +9,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const userRegister = async (req, res) => {
+
+    console.log("register runnig..");
+
     try {
         const { name, email, password } = req.body;
 
@@ -46,7 +49,7 @@ const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.json.status(400).json({ success: false, message: "Missing email or password" });
+            return res.status(400).json({ success: false, message: "Missing email or password" });
         }
 
         const user = await userModel.findOne({ email }) //change into password to email
@@ -59,11 +62,15 @@ const userLogin = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password)
 
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-            return res.json({ success: true, token, user: { name: user.name } })
+            const token = jwt.sign(
+                { id: user._id },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d" }
+            );
+            return res.json({ success: true, token, user: { name: user.name , message:"login successfully"} })
         }
         else {
-            res.json.json({ success: false, message: "invalid" })
+            return res.json({ success: false, message: "invalid" });
         }
 
 
@@ -133,7 +140,7 @@ const PaymentRazorpay = async (req, res) => {
         const newTransaction = await transactionModel.create(transactiondata)
 
         console.log("New transaction created:", newTransaction);
-        
+
         const options = {
             amount: amount * 100,
             currency: process.env.CURRENCY,
@@ -151,7 +158,7 @@ const PaymentRazorpay = async (req, res) => {
             }
 
         })
-       
+
     } catch (error) {
         return res.json({ success: false, message: error.message })
 
