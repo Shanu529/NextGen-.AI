@@ -19,9 +19,15 @@ app.options("*", cors());
 
 app.use(express.json());
 
+
 app.use(async (req, res, next) => {
-  await connectDB();
-  next();
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("DB ERROR:", err);
+    res.status(500).send("Database connection failed");
+  }
 });
 
 app.use('/api/user', userRouter);
