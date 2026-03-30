@@ -14,7 +14,7 @@ const app = express();
 dotenv.config();
 
 
-const PORT = process.env.PORT || 4005
+// const PORT = process.env.PORT || 4005  
 
 app.use(express.json());
 app.use(cors());
@@ -39,9 +39,10 @@ app.get("/", (req, res) => {
   console.log("run")
 });
 
+export default app;
 
-app.listen(PORT, () => {
-  console.log(`server running on this port ${PORT}`)
+// app.listen(PORT, () => {
+//   console.log(`server running on this port ${PORT}`)
 
-});
+// });
 
