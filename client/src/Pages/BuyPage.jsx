@@ -34,44 +34,42 @@ function BuyPage() {
     rzp.open();
   };
 
+  
   const paymentRazorPay = async (planId) => {
-    console.log("clicked");
+  console.log("clicked button");
 
-    try {
-      console.log("paymentRazorPay called with planId:", planId);
-
-      if (!user) {
-        setShowLogin(true);
-        return;
-      } else if (!planId) {
-        toast.error("No plan selected");
-        return;
-      }
-
-      // const { data } = await axios.post(
-      //   backendUrl + "/api/user/pay-razor",
-      //   { planId },
-      //   { headers: { token } }
-      // );
-      const tokenLocal = localStorage.getItem("token");
-
-      const { data } = await axios.post(
-        `${backendUrl}/api/user/pay-razor`,
-        { planId },
-        { headers: { token: tokenLocal } }
-      );
-
-      console.log("here is data  from razerpay", data);
-      console.log("here is order  from razerpay", data.order);
-
-      if (data.success) {
-        initPay(data.order);
-      }
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
-      // toast.error(error.response?.data?.message || error.message);
+  try {
+    if (!user) {
+      console.log("no user");
+      setShowLogin(true);
+      return;
     }
-  };
+
+    const token = localStorage.getItem("token");
+    console.log("tokenLocal:", token);
+    console.log("planId:", planId);
+    console.log("backendUrl:", backendUrl);
+
+    console.log("calling backend...");
+
+    const { data } = await axios.post(
+      `${backendUrl}/api/user/pay-razor`,
+      { planId },
+      {
+       headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    console.log("backend response:", data);
+
+    if (data.success) {
+      initPay(data.order);
+    }
+
+  } catch (error) {
+    console.log("FULL ERROR:", error);
+  }
+};
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-16">

@@ -12,8 +12,11 @@ function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const { showLogin, setShowLogin, backendUrl, setToken, setUser } =
-    useContext(ContextApp);
+
+  const { showLogin, setShowLogin, setToken, setUser, setCredit } =
+  useContext(ContextApp);
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -26,13 +29,16 @@ function Login() {
           password,
         });
 
-        console.log('here is res', data);
+        console.log('here is data comming from login endpoint', data);
         
 
         if (data.success) {
           setToken(data.token);
           setUser(data.user);
-          localStorage.getItem("token", data.token);
+          // localStorage.getItem("token", data.token)
+          localStorage.setItem("token", data.token); 
+          console.log("token sotred");
+          
           setShowLogin(false);
           toast.success(" Login successful.");
         } else {
@@ -48,6 +54,7 @@ function Login() {
         if (data.success) {
           setToken(data.token);
           setUser(data.user);
+          setCredit(data.creadit)
           localStorage.setItem("token", data.token);
           setShowLogin(false);
           toast.success(" Registration successful.");

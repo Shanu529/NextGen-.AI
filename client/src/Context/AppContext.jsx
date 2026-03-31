@@ -22,7 +22,9 @@ const AppContextProvider = ({ children }) => {
       if (!tokenLocal) return;
 
       const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
-        headers: { token: tokenLocal },
+        headers: {
+          Authorization: `Bearer ${tokenLocal}`  // 
+        }
       });
 
       console.log("here is data of backend =>", data);

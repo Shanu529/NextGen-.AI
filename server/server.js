@@ -36,4 +36,8 @@ app.get("/", (req, res) => {
   res.send("working");
 });
 
+app.listen(4000,()=>{
+  console.log("server is running... http://localhost:4000");
+  
+})
 export default app;

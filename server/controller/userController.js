@@ -34,7 +34,7 @@ const userRegister = async (req, res) => {
         console.log("User saved in DB:");
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-        res.json({ success: true, token, user: { name: user.name } })
+        res.json({ success: true, token, user: { name: user.name , creadit: user.creditBalance,message: "register successfully" } })
 
     } catch (error) {
 
@@ -67,7 +67,7 @@ const userLogin = async (req, res) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "7d" }
             );
-            return res.json({ success: true, token, user: { name: user.name , message:"login successfully"} })
+            return res.json({ success: true, token, user: { name: user.name , creadit: user.creditBalance, message:"login successfully"} })
         }
         else {
             return res.json({ success: false, message: "invalid" });
