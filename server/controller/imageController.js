@@ -5,7 +5,11 @@ import axios from "axios";
 import mongoose from 'mongoose';
 
 const imagecontroller = async (req, res) => {
+    console.log("api ClipDrop hit");
+    
     try {
+        console.log("request from frontend", req.body);
+        
         const { prompt } = req.body;
         const userId = req.userId
         const user = await userModel.findById(userId);
@@ -19,6 +23,8 @@ const imagecontroller = async (req, res) => {
 
         const form = new FormData()
         form.append("prompt", prompt)
+        console.log("api hitting points...");
+        
         const { data } = await axios.post("https://clipdrop-api.co/text-to-image/v1", form, {
             headers: {
                 ...form.getHeaders(),
@@ -36,7 +42,7 @@ const imagecontroller = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-        console.error(" Error in imageController:", error); // Full error object
+        console.error(" Error in imageController:", error.message); // Full error object
         console.error(" error.message:", error.message);    // Just the message
         res.json({ success: false, message: "can't run imageController", error })
 

@@ -27,6 +27,8 @@ const AppContextProvider = ({ children }) => {
         }
       });
 
+     
+
       console.log("here is data of backend =>", data);
 
       if (data.success) {
@@ -67,7 +69,9 @@ const AppContextProvider = ({ children }) => {
       const { data } = await axios.post(
         `${backendUrl}/api/image/generate-image`,
         { prompt },
-        { headers: { token: tokenLocal } }
+        { headers:{
+          Authorization: `Bearer ${tokenLocal}`
+        } }
       );
 
       if (data.success) {
@@ -78,9 +82,9 @@ const AppContextProvider = ({ children }) => {
         return { success: false };
       }
     } catch (error) {
-      console.error("Error generating image:", error.message);
+      console.error("Error generating image:", error);
       // toast.error(error.message);
-      console.log(error.message);
+      console.log("error found in context",error.message);
       
       return { success: false };
     }

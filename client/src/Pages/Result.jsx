@@ -16,9 +16,12 @@ function Result() {
   const formHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+       console.log("calling....");
     if (input.trim()) {
+      console.log("generating images....");
       const res = await generateImage(input);
+      console.log("here is response form api call",res);
+      
 
       if (credit === 0) {
         navigate("/buy");

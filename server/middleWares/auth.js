@@ -22,8 +22,10 @@ const userAuth = async (req, res, next) => {
         console.log("decoded:", decoded);
 
         req.userId = decoded.id;
-
+         console.log("user pass from middleware");
         next();
+       
+        
 
     } catch (error) {
         console.log("ERROR:", error.message);
